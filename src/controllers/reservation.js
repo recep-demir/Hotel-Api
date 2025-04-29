@@ -64,7 +64,7 @@ module.exports = {
     });
   },
 
-  delete: async (req, res) => {
+  deleteReservation: async (req, res) => {
         /* 
         #swagger.tags = ['Rezervations']
         #swagger.summary = 'Delete User'
