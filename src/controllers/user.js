@@ -42,7 +42,7 @@ module.exports = {
         ) {
           res.errorStatusCode = 401;
           throw new Error(
-            "Password must be at least 8 characters long and contain at least one special character and  at least one uppercase character "
+            "Password must be at least 8 characters long, and include at least one lowercase letter, one uppercase letter, one digit, and one special character (e.g., @$!%*?&) "
           );
         }
         const result = await User.create(req.body);
@@ -52,6 +52,46 @@ module.exports = {
           result,
         });
       },
+    read: async (req, res) => {
+        /* 
+                #swagger.tags = ['Users']
+                #swagger.summary = 'Get Single User'
+            */
+    
+        const result = await User.findById({ _id: req.params.id });
+        res.status(200).send({
+          error: false,
+          result,
+        });
+      },
+      update: async (req, res) => {
+        /* 
+           #swagger.tags = ['Users']
+           #swagger.summary = 'Update User'
+       */
 
 
+   const result = await User.findByIdAndUpdate(req.params.id , req.body, {
+     runValidator: true,
+     new: true,
+   });
+   res.status(202).send({
+     error: false,
+     result,
+   });
+ },
+ deleteUser: async (req, res) => {
+    /* 
+        #swagger.tags = ['Users']
+        #swagger.summary = 'Delete User'
+    */
+    const result = await User.findByIdAndDelete(req.params.id);
+    if (result) {
+      return res.status(204).end();
+    }
+    return res.status(404).send({
+      error: true,
+      message: "User not found or already deleted",
+    });
+  },
 }
