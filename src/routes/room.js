@@ -1,14 +1,18 @@
 "use strict";
 
-const router = require('express').Router()
-const room=require("../controllers/room")
+const router = require("express").Router();
+const {
+  list,
+  create,
+  read,
+  update,
+  deleteRoom,
+} = require("../controllers/room");
 
-router.route("/").get(room.list).post(room.create)
+const upload = require("../middlewares/upload");
 
-router.route("/:id")
-.get(room.read)
-.put(room.update)
-.patch(room.update)
-.delete(room.deleteRoom)
+router.route("/").get(list).post(upload.array("image")).post(create);
+
+router.route("/:id").get(read).put(update).delete(deleteRoom);
 
 module.exports = router;

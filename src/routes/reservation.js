@@ -11,10 +11,6 @@ const {
 
 router.route("/").get(list).post(create);
 
-router.route("/:id")
-  .get(read)
-  .put(update)
-  .patch(update)
-  .delete(deleteReservation);
+router.route("/:id").get(read).put(update).delete(deleteReservation);
 
 module.exports = router;

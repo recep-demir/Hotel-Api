@@ -1,14 +1,22 @@
 "use strict";
 
-const router = require('express').Router()
-const user=require("../controllers/user")
+const express = require("express");
+const router = express.Router();
+const validate = require("../middlewares/validate");
+const { userCreateSchema, userUpdateSchema } = require("../models/zod");
+const {
+  list,
+  create,
+  read,
+  update,
+  deleteUser,
+} = require("../controllers/user");
 
-router.route("/").get(user.list).post(user.create)
+router.post("/", validate(userCreateSchema), create);
+router.put("/:id", validate(userUpdateSchema), update);
 
-router.route("/:id")
-.get(user.read)
-.put(user.update)
-.patch(user.update)
-.delete(user.deleteUser)
+router.get("/", list);
+router.get("/:id", read);
+router.delete("/:id", deleteUser);
 
 module.exports = router;
