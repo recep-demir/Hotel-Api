@@ -8,20 +8,35 @@ const RoomSchema = new mongoose.Schema(
       type: Number,
       unique: true,
       required: true,
+      min: [101, "Room number must be between 101 and 199"],
+      max: [199, "Room number must be between 101 and 199"],
     },
-    image: String,
-    bedType: {
-      type: Number,
+    image: [String],
+    roomType: {
+      type: String,
+      trim: true,
       required: true,
-      enum: [1, 2, 3, 4],
-      default: 1,
+      enum: {
+        values: [
+          "Double",
+          "Single",
+          "Triple",
+          "Quadruple",
+          "Presidential",
+          "Suit",
+          "Twin",
+        ],
+        message:
+          "Room type must be one of the following: Double, Single, Triple, Quadruple, Presidential, Suit, Twin",
+      },
     },
     price: {
       type: Number,
       required: true,
+      default: 500,
     },
   },
-  { collection: "Rooms", timestamps: true }
+  { collection: "rooms", timestamps: true }
 );
 
 module.exports = mongoose.model("Room", RoomSchema);
