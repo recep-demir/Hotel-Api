@@ -29,7 +29,6 @@ module.exports = {
         #swagger.tags = ['Rooms']
         #swagger.summary = 'Create Room'
     */
-   
     const result = await Room.create(req.body);
     res.status(200).send({
       error: false,
@@ -42,7 +41,10 @@ module.exports = {
         #swagger.summary = 'Read Room'
     */
     const result = await Room.findById(req.params.id);
-    res.status(200).send({ error: false, result });
+    res.status(200).send({
+      error: false,
+      result,
+    });
   },
   update: async (req, res) => {
     /* 
@@ -50,6 +52,7 @@ module.exports = {
         #swagger.summary = 'Update Room'
     */
     const result = await Room.findByIdAndUpdate(req.params.id, req.body, {
+      runValidators: true,
       new: true,
     });
     res.status(202).send({
@@ -64,7 +67,7 @@ module.exports = {
     */
     const result = await Room.findByIdAndDelete(req.params.id);
     if (result) {
-      return res.status(204);
+      return res.status(204).end();
     }
     return res.status(404).send({
       error: true,
