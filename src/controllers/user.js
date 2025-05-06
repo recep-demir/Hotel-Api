@@ -3,9 +3,8 @@
 const User = require("../models/user");
 
 module.exports = {
-    list: async (req, res) => {
-
-        /* 
+  list: async (req, res) => {
+    /* 
         #swagger.tags = ['Users']
         #swagger.summary = 'List Users'
         #swagger.desription = `
@@ -18,80 +17,60 @@ module.exports = {
             </ul>
         `
     */
-
-        const result = await res.getModelList(User);
-
-        res.status(200).send({
-            error: false,
-            details: await res.getModelListDetails(User),
-            result,
-          });
-
-    },
-    create: async (req, res) => {
-        /* 
-                #swagger.tags = ['Users']
-                #swagger.summary = 'Create User'
-            */
-    
-        //Password validation
-        if (
-          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(
-            req.body.password
-          )
-        ) {
-          res.errorStatusCode = 401;
-          throw new Error(
-            "Password must be at least 8 characters long, and include at least one lowercase letter, one uppercase letter, one digit, and one special character (e.g., @$!%*?&) "
-          );
-        }
-        const result = await User.create(req.body);
-    
-        res.status(201).send({
-          error: false,
-          result,
-        });
-      },
-    read: async (req, res) => {
-        /* 
-                #swagger.tags = ['Users']
-                #swagger.summary = 'Get Single User'
-            */
-    
-        const result = await User.findById({ _id: req.params.id });
-        res.status(200).send({
-          error: false,
-          result,
-        });
-      },
-      update: async (req, res) => {
-        /* 
-           #swagger.tags = ['Users']
-           #swagger.summary = 'Update User'
-       */
-
-
-   const result = await User.findByIdAndUpdate(req.params.id , req.body, {
-     runValidator: true,
-     new: true,
-   });
-   res.status(202).send({
-     error: false,
-     result,
-   });
- },
- deleteUser: async (req, res) => {
+    const result = await res.getModelList(User);
+    res.status(200).send({
+      error: false,
+      details: await res.getModelListDetails(User),
+      result,
+    });
+  },
+  create: async (req, res) => {
+    /* 
+        #swagger.tags = ['Users']
+        #swagger.summary = 'Create User'
+    */
+    const result = await User.create(req.body);
+    res.status(200).send({
+      error: false,
+      result,
+    });
+  },
+  read: async (req, res) => {
+    /* 
+        #swagger.tags = ['Users']
+        #swagger.summary = 'Read User'
+    */
+    const result = await User.findById(req.params.id);
+    res.status(200).send({
+      error: false,
+      result,
+    });
+  },
+  update: async (req, res) => {
+    /* 
+        #swagger.tags = ['Users']
+        #swagger.summary = 'Update User'
+    */
+    const result = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(202).send({
+      error: false,
+      result,
+    });
+  },
+  deleteUser: async (req, res) => {
     /* 
         #swagger.tags = ['Users']
         #swagger.summary = 'Delete User'
     */
     const result = await User.findByIdAndDelete(req.params.id);
     if (result) {
-      return res.status(204).end();
+      return res.status(204).end("User Deleted");
     }
     return res.status(404).send({
       error: true,
       message: "User not found or already deleted",
     });
   },
-}
+};
