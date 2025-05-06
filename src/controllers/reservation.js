@@ -4,9 +4,9 @@ const Reservation = require("../models/reservation");
 
 module.exports = {
   list: async (req, res) => {
-            /* 
-        #swagger.tags = ['Rezervations']
-        #swagger.summary = 'List Rezervations'
+    /* 
+        #swagger.tags = ['Reservations']
+        #swagger.summary = 'List Reservations'
         #swagger.desription = `
             You can send query with endpoint for filter[], search[], sort[], page and limit.
             <ul> Examples usage:
@@ -24,54 +24,56 @@ module.exports = {
       result,
     });
   },
-
   create: async (req, res) => {
-            /* 
-                #swagger.tags = ['Rezervations']
-                #swagger.summary = 'Create User'
-            */
+    /* 
+        #swagger.tags = ['Reservations']
+        #swagger.summary = 'Create Reservation'
+    */
     const result = await Reservation.create(req.body);
-    res.status(201).send({
+    res.status(200).send({
       error: false,
       result,
     });
   },
-
   read: async (req, res) => {
-            /* 
-                #swagger.tags = ['Rezervations']
-                #swagger.summary = 'Get Single User'
-            */
+    /* 
+        #swagger.tags = ['Reservations']
+        #swagger.summary = 'Read Reservation'
+    */
     const result = await Reservation.findById(req.params.id);
     res.status(200).send({
       error: false,
       result,
     });
   },
-
   update: async (req, res) => {
-            /* 
-           #swagger.tags = ['Rezervations']
-           #swagger.summary = 'Update User'
-       */
-    const result = await Reservation.findByIdAndUpdate(req.params.id, req.body, {
-      runValidators: true,
-      new: true,
-    });
+    /* 
+        #swagger.tags = ['Reservations']
+        #swagger.summary = 'Update Reservation'
+    */
+    const result = await Reservation.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        runValidators: true,
+        new: true,
+      }
+    );
     res.status(202).send({
       error: false,
       result,
     });
   },
-
   deleteReservation: async (req, res) => {
-        /* 
-        #swagger.tags = ['Rezervations']
-        #swagger.summary = 'Delete User'
+    /* 
+        #swagger.tags = ['Reservations']
+        #swagger.summary = 'Delete Reservation'
     */
     const result = await Reservation.findByIdAndDelete(req.params.id);
-    if (result) return res.status(204).end();
-    res.status(404).send({
+    if (result) {
+      return res.status(204).end();
+    }
+    return res.status(404).send({
       error: true,
       message: "Reservation not found or already deleted",
     });
