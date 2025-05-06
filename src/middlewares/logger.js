@@ -1,12 +1,5 @@
 "use strict";
 
-/*//! ---------------------------- Initial Commands ---------------------------- */
-
-//* npm i morgan
-//* app.use(logger)
-
-/*//! -------------------------------------------------------------------------- */
-
 const morgan = require("morgan");
 const fs = require("node:fs");
 

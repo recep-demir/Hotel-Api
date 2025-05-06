@@ -1,15 +1,24 @@
 "use strict";
 
 module.exports = (req, res, next) => {
-  //! Filter
+  /*//! -------------------------------- Filtering ------------------------------- */
+
   const filter = req.query?.filter || {};
-  //! Search
+
+  /*//! -------------------------------- Searching ------------------------------- */
+
   const search = req.query?.search || {};
+
   for (let key in search) search[key] = { $regex: search[key], $options: "i" };
-  //! Sort
+
+  /*//! --------------------------------- Sorting -------------------------------- */
+
   const sort = req.query?.sort || {};
-  //! Pagination
+
+  /*//! ------------------------------- Pagination ------------------------------- */
+
   let limit = Number(req.query?.limit);
+
   limit = limit > 0 ? limit : Number(process.env.PAGE_SIZE || 20);
 
   let page = Number(req.query?.page);
@@ -18,6 +27,8 @@ module.exports = (req, res, next) => {
   let skip = Number(req.query?.skip);
   skip = skip > 0 ? skip : page * limit;
 
+  /*//! -------------------------------------------------------------------------- */
+
   res.getModelList = async (Model, customFilter = {}, populate = null) => {
     return await Model.find({ ...filter, ...search, ...customFilter })
       .sort(sort)
@@ -25,8 +36,12 @@ module.exports = (req, res, next) => {
       .limit(limit)
       .populate(populate);
   };
+
+  /*//! -------------------------------------------------------------------------- */
+
   res.getModelListDetails = async (Model, customFilter = {}) => {
     const data = await Model.find({ ...filter, ...search, ...customFilter });
+
     let details = {
       filter,
       search,
@@ -47,5 +62,6 @@ module.exports = (req, res, next) => {
     if (details.totalRecords <= limit) details.pages = false;
     return details;
   };
+
   next();
 };
