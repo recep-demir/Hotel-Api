@@ -4,10 +4,11 @@
 
 //* npm init -y
 //* npm i express dotenv mongoose
-//* npm i morgan swagger-autogen swagger-ui-express redoc-express
+//* npm i morgan swagger-autogen swagger-ui-express redoc-express zod
 //* mkdir logs
 //* node swaggerAutogen.js
-//* nodemon or npm start
+//* nodemon or npm starts
+//* npm i jsonwebtoken nodemailer multer
 
 const express = require("express");
 const app = express();
@@ -28,26 +29,26 @@ app.use(express.json());
 
 app.use(require("./src/middlewares/logger"));
 
-//* Authentication gelecek
+// app.use(require('./src/middlewares/authentication'))
 
 app.use(require("./src/middlewares/queryHandler"));
 
 /*//! --------------------------------- Routes --------------------------------- */
 
-app.use("/", require("./src/routes/index"));
+app.use("/", require("./src/routes"));
 
-app.all("/", (req, res) =>
+app.all("/", (req, res) => {
   res.send({
     error: false,
-    message: "Welcome to Hotel-API",
+    message: "Welcome to Hotel API",
     docs: {
-      swagger: "/documents/swagger",
-      redoc: "/documents/redoc",
-      json: "/documents/json",
+      swagger: "/document/swagger",
+      redoc: "/document/redoc",
+      json: "/document/json",
     },
     user: req.user,
-  })
-);
+  });
+});
 
 /*//! ------------------------------ errorHandler ------------------------------ */
 
@@ -55,8 +56,8 @@ app.use(require("./src/middlewares/errorHandler"));
 
 /*//! ------------------------------- Run Server ------------------------------- */
 
-app.listen(PORT, () => console.log(`http://127.0.0.1:${PORT}`));
+app.listen(PORT, () => console.log("http://127.0.0.1:" + PORT));
 
 /*//! ----------------------------- Syncronization ----------------------------- */
 
-// require("./src/helpers/sync")() //* Run it only once
+// require('./src/helpers/sync')() //? It clear database.(must be in commentLine)
