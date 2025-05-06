@@ -6,7 +6,7 @@ const crypto = require("node:crypto"),
   charCount = 32,
   encType = "sha512";
 
-module.exports = (password) => {
+module.exports = function (password) {
   return crypto
     .pbkdf2Sync(password, keyCode, loopCount, charCount, encType)
     .toString("hex");
