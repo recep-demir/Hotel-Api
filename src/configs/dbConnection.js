@@ -1,13 +1,17 @@
 "use strict";
 
-const mongoose = require("mongoose"); //* MongoDB Connection
+/*//! --------------------------- MongoDB Connection --------------------------- */
 
-const dbConnection = () => {
+const mongoose = require("mongoose");
+
+const dbConnection = function () {
   mongoose
     .connect(process.env.MONGODB)
-    .then(() => console.log("* * DB CONNECTED * *"))
-    .catch((error) => console.log("! ! DB NOT CONNECTED ! !", error));
+    .then(() => console.log("** DB Connected **"))
+    .catch((err) => console.log("!! DB Not Connected !!", err));
 };
+
+/*//!-------------------------------------------------------------------------- */
 
 module.exports = {
   mongoose,
