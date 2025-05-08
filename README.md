@@ -4,6 +4,7 @@
 
 This RESTful API provides endpoints to manage hotel reservations, including user, room, and reservation management. It includes secure JWT-based authentication and auto-generated API documentation using Swagger and Redoc.
 
+
 ---
 
 ## 🚀 Features
